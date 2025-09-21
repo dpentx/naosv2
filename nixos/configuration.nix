@@ -4,8 +4,10 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-#      ./nix-alien.nix
+      ../modules/quickshell.nix
     ];
+  
+  boot.kernelPackages = pkgs.linuxPackages_zen; 
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -21,6 +23,10 @@
       };
     };
   };  
+
+    programs.quickshell = {
+    enable = true;
+  };
 
   services.blueman.enable = true;
 
@@ -64,8 +70,6 @@
    package = config.boot.kernelPackages.nvidiaPackages.stable;
  
  };
-
-
 
   # Set your time zone.
   time.timeZone = "Europe/Istanbul";
@@ -123,7 +127,7 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  # Define a user account. Don't forget to set a password with 'passwd'.
   users.users.asus = {
     isNormalUser = true;
     description = "asus";
@@ -142,7 +146,6 @@
   microsoft-edge
   peazip
   onlyoffice-desktopeditors
-  harmony-music
   waybar
   wofi
   swww
@@ -161,21 +164,25 @@
   playerctl
   btop
   neofetch
-  (nerdfonts.override { fonts = [ "JetBrainsMono" "FiraCode" ]; })
+  nerd-fonts.jetbrains-mono
+  nerd-fonts.fira-code
   noto-fonts
-  noto-fonts-cjk
+  noto-fonts-cjk-sans
   noto-fonts-emoji
   font-awesome 
   catppuccin-gtk
   papirus-icon-theme 
   code-cursor
+  spicetify-cli
+  spotify
+  
 ];
 
   fonts = {
     packages = with pkgs; [
-      (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+      nerd-fonts.jetbrains-mono
       noto-fonts
-      noto-fonts-cjk
+      noto-fonts-cjk-sans
       noto-fonts-emoji
       font-awesome
     ];

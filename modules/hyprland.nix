@@ -13,13 +13,14 @@
       # Başlangıç uygulamaları
       exec-once = [
         "swww init"
-        "swww img ~/Pictures/wallpaper.jpg"
-        "waybar"
+        "swww img /home/asus/wallpaper/wallpaper.jpg"
         "dunst"
         "/usr/lib/polkit-kde-authentication-agent-1"
         # Bluetooth ses desteği
         "blueman-applet"
         "~/.config/scripts/bluetooth-audio-fix.sh fix"
+        # Quickshell'i başlat
+        "quickshell"
       ];
       
       # Input yapılandırması
@@ -43,7 +44,7 @@
         layout = "dwindle";
       };
       
-      # Dekorasyon
+      # Dekorasyon - Yeni syntax
       decoration = {
         rounding = 16;
         blur = {
@@ -52,10 +53,13 @@
           passes = 3;
           new_optimizations = true;
         };
-        drop_shadow = true;
-        shadow_range = 4;
-        shadow_render_power = 3;
-        "col.shadow" = "rgba(1a1a1aee)";
+        # Yeni shadow syntax
+        shadow = {
+          enabled = true;
+          range = 4;
+          render_power = 3;
+          color = "rgba(1a1a1aee)";
+        };
       };
       
       # Animasyonlar
@@ -80,16 +84,16 @@
       };
       
       # Pencere kuralları
-      windowrule = [
-        "float, ^(pavucontrol)$"
-        "float, ^(blueman-manager)$"
-        "float, ^(nm-connection-editor)$"
-        "float, ^(chromium)$"
-        "float, ^(thunar)$"
+      windowrulev2 = [
+        "float, class:^(pavucontrol)$"
+        "float, class:^(blueman-manager)$"
+        "float, class:^(nm-connection-editor)$"
+        "float, class:^(chromium)$"
+        "float, class:^(thunar)$"
         "float, title:^(btop)$"
         "float, title:^(update-sys)$"
-        "size 800 600, ^(pavucontrol)$"
-        "center, ^(pavucontrol)$"
+        "size 800 600, class:^(pavucontrol)$"
+        "center, class:^(pavucontrol)$"
       ];
       
       # Keybindings
@@ -161,7 +165,24 @@
         "SUPER SHIFT, S, exec, grim -g \"$(slurp)\" ~/Pictures/Screenshots/screenshot-$(date +%Y%m%d-%H%M%S).png"
         "SUPER, F11, fullscreen, 0"
         "SUPER, F, fullscreen, 1"
-        "SUPER SHIFT, F, fakefullscreen"
+        
+        # Quickshell restart
+        "SUPER SHIFT, R, exec, pkill quickshell && quickshell"
+
+  # QuickShell sistem kontrolleri
+  "SUPER, SPACE, exec, fuzzel"  # Fuzzel launcher (senin wofi yerine)
+  "SUPER SHIFT, A, exec, pavucontrol"        # Ses kontrolü
+  "SUPER SHIFT, B, exec, blueman-manager"    # Bluetooth
+  "SUPER SHIFT, N, exec, nm-connection-editor" # Network
+  
+  # QuickShell yeniden başlatma
+  "SUPER SHIFT, Q, exec, pkill quickshell && sleep 0.1 && quickshell &"
+  
+  # Sistem kontrol script'leri
+  "SUPER, F1, exec, ~/.config/scripts/quickshell-system.sh audio control"
+  "SUPER, F2, exec, ~/.config/scripts/quickshell-system.sh bluetooth manager"
+  "SUPER, F3, exec, ~/.config/scripts/quickshell-system.sh network manager"
+  
       ];
       
       # Mouse bindings

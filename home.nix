@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, quickshell, inputs,  ... }:
 
 {
   home.username = "asus";
@@ -6,7 +6,13 @@
 
   home.stateVersion = "25.05";
   
+  # Disable version mismatch warning
+  home.enableNixpkgsReleaseCheck = false;
+
+  disabledModules = [ "programs/quickshell.nix" ];
+  
   imports = [
+    inputs.spicetify-nix.homeManagerModules.default
     ./modules/hyprland.nix
     ./modules/waybar.nix
     ./modules/terminal.nix
@@ -24,42 +30,43 @@
     ]))
     prismlauncher
     qbittorrent
-    harmony-music
     gtk3
     pamixer
     libnotify
     # Nerd Font
-    (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+    nerd-fonts.jetbrains-mono
+    papirus-icon-theme
   ];
 
-  nixpkgs.config.allowUnfree = true;
+   programs.spicetify =
+let
+  spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
+in
+{
+  enable = true;
 
-  services = {
+  enabledExtensions = with spicePkgs.extensions; [
+    adblock
+    hidePodcasts
+    shuffle # shuffle+ (special characters are sanitized out of extension names)
+  ];
+  enabledCustomApps = with spicePkgs.apps; [
+    newReleases
+    ncsVisualizer
+  ];
+  enabledSnippets = with spicePkgs.snippets; [
+    rotatingCoverart
+    pointer
+  ];
+
+  theme = spicePkgs.themes.catppuccin;
+  colorScheme = "mocha";
+};
+
+   services = {
     # Bluetooth applet (sistem seviyesinde blueman var)
     blueman-applet.enable = true;
-    
-    # Bildirimler (sistem seviyesinde dunst var ama home-manager ile yapılandırmak daha iyi)
-    dunst = {
-      enable = true;
-      settings = {
-        global = {
-          width = 300;
-          height = 300;
-          offset = "30x50";
-          origin = "top-right";
-          transparency = 10;
-          frame_color = "#89b4fa";
-          font = "JetBrains Mono Nerd Font 10";
-          corner_radius = 15;
-        };
-        urgency_normal = {
-          background = "#1e1e2e";
-          foreground = "#cdd6f4";
-          timeout = 10;
-        };
-      };
-    };
-  }; # Bu kapatma parantezi eksikti!
+  };
 
   home.sessionVariables = {
   };
@@ -99,6 +106,12 @@
               esac
               VOLUME=$(pactl get-sink-volume "$BT_SINK" | grep -oP '\d+%' | head -n1)
               notify-send "Bluetooth Ses" "Seviye: $VOLUME" -i audio-volume-high -t 1000
+              
+              # Quickshell'e ses seviyesi değişikliğini bildir (eğer varsa)
+              if command -v quickshell >/dev/null 2>&1; then
+                  # Quickshell ses widget'ını yenilemeye zorla
+                  pkill -USR1 quickshell 2>/dev/null || true
+              fi
           else
               case $ACTION in
                   "up") wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ ;;
