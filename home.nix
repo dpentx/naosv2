@@ -14,7 +14,6 @@
   imports = [
     inputs.spicetify-nix.homeManagerModules.default
     ./modules/hyprland.nix
-    ./modules/waybar.nix
     ./modules/terminal.nix
     ./modules/launcher.nix
     ./modules/notifications.nix
