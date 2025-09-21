@@ -28,6 +28,7 @@
     enable = true;
   };
 
+
   services.blueman.enable = true;
 
   networking.hostName = "nixos"; # Define your hostname.
@@ -106,7 +107,16 @@
   console.keyMap = "trq";
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
+  services.printing = {
+    enable = true;
+    drivers = [ pkgs.epson-escpr ];
+   };
+
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+   };
 
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
@@ -175,7 +185,7 @@
   code-cursor
   spicetify-cli
   spotify
-  
+  system-config-printer
 ];
 
   fonts = {

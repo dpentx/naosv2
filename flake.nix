@@ -15,11 +15,13 @@
   outputs = { self, nixpkgs, home-manager, quickshell, ... }@inputs: {
     nixosConfigurations.asus = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
+      specialArgs = { inherit inputs; };
       modules = [
         ./nixos/hardware-configuration.nix
         ./nixos/configuration.nix
         home-manager.nixosModules.home-manager
         {
+         # environment.systemPackages = [ quickshell.packages.x86_64-linux.default ];
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.users.asus = {

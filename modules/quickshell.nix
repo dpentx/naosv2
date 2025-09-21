@@ -1,6 +1,6 @@
 # waybar-like-quickshell.nix - Waybar benzeri QuickShell konfigÃ¼rasyonu
 
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 let
   # Waybar'daki renkleri analiz ettim
@@ -1442,10 +1442,13 @@ in
       value.text = cfg.text;
     }) config.programs.quickshell.configs;
     
+    programs.quickshell.configs.shell.text = shellContent;
+
     environment.systemPackages = with pkgs; [
       playerctl
       acpi          
-      iproute2      
+      iproute2     
+      inputs.quickshell.packages.${pkgs.system}.default  
     ];
   };
 }
