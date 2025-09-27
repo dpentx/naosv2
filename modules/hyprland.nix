@@ -20,7 +20,7 @@
         "blueman-applet"
         "~/.config/scripts/bluetooth-audio-fix.sh fix"
         # Quickshell'i başlat
-        "quickshell"
+        "caelestia shell"
       ];
       
       # Input yapılandırması
