@@ -248,10 +248,6 @@ mkdir -p ~/wallpaper/
 - **Font**: JetBrains Mono Nerd Font
 - **Locale**: Turkish (TR)
 
-## 🤝 Katkı
-
-Pull request'ler ve issue'lar memnuniyetle karşılanır!
-
 ---
 
 **⚠️ Önemli Notlar:**
