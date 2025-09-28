@@ -14,8 +14,8 @@ Bu repo, Hyprland, Caelestia Shell, Kitty ve diğer modern Linux araçları ile 
 
 1. **Repository'yi klonlayın:**
    ```bash
-   git clone <repository-url>
-   cd naos
+   git clone https://github.com/dpentx/naosv2
+   cd naosv2
    ```
 
 2. **Kullanıcı adını değiştirin:**
