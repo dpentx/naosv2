@@ -39,7 +39,7 @@
 
     programs.hyprland = {
     enable = true;
-    xwayland.enable = true;
+    xwayland.enable = false;
   };
 
   #nvidia
@@ -78,12 +78,7 @@
     LC_TIME = "tr_TR.UTF-8";
   };
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  # Enable the XFCE Desktop Environment.
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -133,13 +128,6 @@
   microsoft-edge
   peazip
   onlyoffice-desktopeditors
-  waybar
-  wofi
-  swww
-  dunst
-  wlogout
-  swaylock-effects
-  grim
   slurp
   wl-clipboard
   xdg-desktop-portal-hyprland
@@ -149,8 +137,7 @@
   pavucontrol
   brightnessctl
   playerctl
-  btop
-  neofetch
+  freshfetch
   nerd-fonts.jetbrains-mono
   nerd-fonts.fira-code
   noto-fonts
@@ -182,13 +169,6 @@
         emoji = [ "Noto Color Emoji" ];
       };
     };
-  };
-
-  xdg.portal = {
-    enable = true;
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-hyprland
-    ];
   };
 
   system.stateVersion = "25.05";

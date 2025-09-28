@@ -5,12 +5,18 @@
   wayland.windowManager.hyprland = {
     enable = true;
     settings = {
-      # Monitor yapılandırması - herhangi bir monitörü kullan
+      # Monitor yapılandırması
       monitor = [
         ",preferred,auto,1"
       ];
       
-      # Başlangıç uygulamaları
+      # Environment değişkenleri - CURSOR AYARLARI
+      env = [
+        "XCURSOR_THEME,Nordzy-cursors"
+        "XCURSOR_SIZE,24"
+      ];
+      
+      # Başlangıç uygulamaları - HEPSİ TEK YERDE
       exec-once = [
         "swww init"
         "swww img /home/asus/wallpaper/wallpaper.jpg"
@@ -21,6 +27,8 @@
         "~/.config/scripts/bluetooth-audio-fix.sh fix"
         # Quickshell'i başlat
         "caelestia shell"
+        # Cursor ayarı
+        "${pkgs.hyprland}/bin/hyprctl setcursor Nordzy-cursors 24"
       ];
       
       # Input yapılandırması
@@ -44,7 +52,7 @@
         layout = "dwindle";
       };
       
-      # Dekorasyon - Yeni syntax
+      # Dekorasyon
       decoration = {
         rounding = 16;
         blur = {
@@ -53,7 +61,6 @@
           passes = 3;
           new_optimizations = true;
         };
-        # Yeni shadow syntax
         shadow = {
           enabled = true;
           range = 4;
@@ -106,17 +113,18 @@
         "SUPER, R, exec, wofi --show drun"
         "SUPER, P, pseudo"
         "SUPER, J, togglesplit"
+        "SUPER, S, exec, hyprshot -m region"
         
         # Ekran görüntüsü
         "SUPER, Print, exec, grim -g \"$(slurp)\" - | wl-copy"
         ", Print, exec, grim - | wl-copy"
         
-        # Media keys - Bluetooth dahil tüm cihazlar için
+        # Media keys
         ", XF86AudioRaiseVolume, exec, ~/.config/scripts/bluetooth-audio-fix.sh volume up"
         ", XF86AudioLowerVolume, exec, ~/.config/scripts/bluetooth-audio-fix.sh volume down"
         ", XF86AudioMute, exec, ~/.config/scripts/bluetooth-audio-fix.sh volume mute"
         
-        # Alternatif ses kontrolleri (bluetooth için özel)
+        # Alternatif ses kontrolleri
         "SUPER, equal, exec, pactl set-sink-volume @DEFAULT_SINK@ +5%"
         "SUPER, minus, exec, pactl set-sink-volume @DEFAULT_SINK@ -5%"
         "SUPER, 0, exec, pactl set-sink-mute @DEFAULT_SINK@ toggle"
@@ -168,21 +176,20 @@
         
         # Quickshell restart
         "SUPER SHIFT, R, exec, pkill quickshell && quickshell"
-
-  # QuickShell sistem kontrolleri
-  "SUPER, SPACE, exec, fuzzel"  # Fuzzel launcher (senin wofi yerine)
-  "SUPER SHIFT, A, exec, pavucontrol"        # Ses kontrolü
-  "SUPER SHIFT, B, exec, blueman-manager"    # Bluetooth
-  "SUPER SHIFT, N, exec, nm-connection-editor" # Network
-  
-  # QuickShell yeniden başlatma
-  "SUPER SHIFT, Q, exec, pkill quickshell && sleep 0.1 && quickshell &"
-  
-  # Sistem kontrol script'leri
-  "SUPER, F1, exec, ~/.config/scripts/quickshell-system.sh audio control"
-  "SUPER, F2, exec, ~/.config/scripts/quickshell-system.sh bluetooth manager"
-  "SUPER, F3, exec, ~/.config/scripts/quickshell-system.sh network manager"
-  
+        
+        # QuickShell sistem kontrolleri
+        "SUPER, SPACE, exec, fuzzel"
+        "SUPER SHIFT, A, exec, pavucontrol"
+        "SUPER SHIFT, B, exec, blueman-manager"
+        "SUPER SHIFT, N, exec, nm-connection-editor"
+        
+        # QuickShell yeniden başlatma
+        "SUPER SHIFT, Q, exec, pkill quickshell && sleep 0.1 && quickshell &"
+        
+        # Sistem kontrol scriptleri
+        "SUPER, F1, exec, ~/.config/scripts/quickshell-system.sh audio control"
+        "SUPER, F2, exec, ~/.config/scripts/quickshell-system.sh bluetooth manager"
+        "SUPER, F3, exec, ~/.config/scripts/quickshell-system.sh network manager"
       ];
       
       # Mouse bindings

@@ -16,7 +16,6 @@
     ./modules/hyprland.nix
     ./modules/terminal.nix
     ./modules/launcher.nix
-    ./modules/notifications.nix
     ./modules/shell.nix
   ];
 
@@ -42,21 +41,27 @@ programs.caelestia = {
 };
 
   home.packages = with pkgs; [
-    jetbrains.pycharm-community
-    (python3.withPackages (p: with p; [
-      pip
-      virtualenv
-      textual
-    ]))
     prismlauncher
-    qbittorrent
+    gpu-screen-recorder
+    xfce.thunar
+    hyprshot
     gtk3
     pamixer
-    libnotify
-    # Nerd Font
-    nerd-fonts.jetbrains-mono
-    papirus-icon-theme
+    nordzy-cursor-theme
   ];
+
+gtk = {
+  enable = true;
+  iconTheme = {
+    name = "Papirus";
+    package = pkgs.papirus-icon-theme;
+  };
+  cursorTheme = {
+   package = pkgs.nordzy-cursor-theme;
+   name = "Nordzy-cursors";
+   size = 24;
+  };
+};
 
    programs.spicetify =
 let
@@ -83,10 +88,10 @@ in
   colorScheme = "mocha";
 };
 
-   services = {
+#   services = {
     # Bluetooth applet (sistem seviyesinde blueman var)
-    blueman-applet.enable = true;
-  };
+ #   blueman-applet.enable = true;
+ # };
 
   home.sessionVariables = {
   };

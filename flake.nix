@@ -29,6 +29,7 @@
           # environment.systemPackages = [ quickshell.packages.x86_64-linux.default ];
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
+          home-manager.backupFileExtension = "backup";
           home-manager.users.asus = {
             imports = [
               ./home.nix
