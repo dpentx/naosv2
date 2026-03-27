@@ -2,7 +2,8 @@
 
 {
   imports = [
-      ./hardware-configuration.nix
+#      ./hardware-configuration.nix
+      ./modules/greetd.nix
     ];
   
   boot.kernelPackages = pkgs.linuxPackages_zen; 
@@ -22,9 +23,7 @@
     };
   };  
 
-  services.blueman.enable = true;
-
-  networking.hostName = "nixos";
+  networking.hostName = "niiha";
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -51,12 +50,12 @@
 
    hardware.nvidia = {
 
-   modesetting.enable = true;
-   powerManagement.enable = false;
-   powerManagement.finegrained = false;
-   open = false;
-   nvidiaSettings = true;
-   package = config.boot.kernelPackages.nvidiaPackages.stable;
+    modesetting.enable = true;
+    powerManagement.enable = false;
+    powerManagement.finegrained = false;
+    open = false;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
  
  };
 
@@ -77,8 +76,6 @@
     LC_TELEPHONE = "tr_TR.UTF-8";
     LC_TIME = "tr_TR.UTF-8";
   };
-
-  services.displayManager.sddm.wayland.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -142,13 +139,15 @@
   nerd-fonts.fira-code
   noto-fonts
   noto-fonts-cjk-sans
-  noto-fonts-emoji
+  noto-fonts-color-emoji
   font-awesome 
   catppuccin-gtk
   papirus-icon-theme 
   code-cursor
   spicetify-cli
   spotify
+  tuigreet
+  pear-desktop
   system-config-printer
   inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default
 ];
@@ -158,7 +157,7 @@
       nerd-fonts.jetbrains-mono
       noto-fonts
       noto-fonts-cjk-sans
-      noto-fonts-emoji
+      noto-fonts-color-emoji
       font-awesome
     ];
     fontconfig = {
